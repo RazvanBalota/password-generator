@@ -19,3 +19,36 @@ body {
   color: white;
   background-color: #18171f;
 }
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Style the custom checkbox */
+input[type="checkbox"]:checked {
+  background-color: #a4ffaf;
+}
+
+/* Style the label */
+label {
+  display: inline-block;
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+input[type="checkbox"] + label:checked {
+  content: "✓";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  font-size: 12px;
+  color: #fff;
+}

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "./useForm";
 import { getRandomChar, getSymbol } from "./utils";
+import { FaClipboard } from "react-icons/fa";
+import { toast } from "react-hot-toast";
 
 export default function PasswordGenerator() {
   const [values, setValues] = useForm({
@@ -40,33 +42,53 @@ export default function PasswordGenerator() {
     for (let i = 0; i < values.length; i++) {
       const index = Math.floor(Math.random() * checkedFields.length);
       const letter = checkedFields[index]?.getChar();
+
       if (letter) {
         generatedPassword += letter;
       }
     }
     if (generatedPassword) {
       setResult(generatedPassword);
+    } else {
+      toast.error("Please check at least one field");
+    }
+  };
+
+  const handleClipboard = async () => {
+    if (result) {
+      await navigator.clipboard.writeText(result);
+      toast.success("Password copied to your clipboard");
+    } else {
+      toast.error("Error copying the password");
     }
   };
 
   return (
     <section className="w-[343px] h-[540px] lg:w-[540px] lg:h-[632px] bg-dark">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto flex flex-col justify-center items-center text-md">
         <form onSubmit={handleOnSubmit}>
-          <div>
+          <div className="flex mt-10">
             <input
               type="text"
               id="result"
               placeholder="Your password"
               readOnly
-              className="w-full bg-transparent"
+              className="w-full bg-transparent text-center outline-none"
               value={result}
             />
+            <div
+              onClick={handleClipboard}
+              className="cursor-pointer">
+              <FaClipboard
+                size={20}
+                className="text-neon"
+              />
+            </div>
           </div>
-          <div className="flex pt-10">
+          <div className="flex justify-center items-center pt-10 mb-10">
             <label
               htmlFor="length"
-              className="w-2/3 ">
+              className="w-full">
               Caracter length
             </label>
             <input
@@ -77,7 +99,7 @@ export default function PasswordGenerator() {
               name="length"
               value={values.length}
               onChange={setValues}
-              className="w-1/3 text-black"
+              className="w-10 bg-transparent outline-none text-neon text-xl"
             />
           </div>
           <div className="flex gap-x-4">
@@ -90,7 +112,7 @@ export default function PasswordGenerator() {
             />
             <label htmlFor="uppercase">Include Uppercase letters</label>
           </div>
-          <div className="flex gap-x-4">
+          <div className="flex gap-x-4 pt-2">
             <input
               type="checkbox"
               id="lowercase"
@@ -100,7 +122,7 @@ export default function PasswordGenerator() {
             />
             <label htmlFor="lowercase">Include Lowercase letters</label>
           </div>
-          <div className="flex gap-x-4">
+          <div className="flex gap-x-4 pt-2">
             <input
               type="checkbox"
               id="numbers"
@@ -110,7 +132,7 @@ export default function PasswordGenerator() {
             />
             <label htmlFor="numbers">Include numbers</label>
           </div>
-          <div className="flex gap-x-4">
+          <div className="flex gap-x-4 pt-2">
             <input
               type="checkbox"
               id="symbols"
@@ -120,10 +142,12 @@ export default function PasswordGenerator() {
             />
             <label htmlFor="symbols">Include symbols</label>
           </div>
-          <div>
-            <span>Strength</span>
+          <div className=" bg-background uppercase w-full py-5 px-10 mt-10">
+            <span className="text-light opacity-80">Strength</span>
           </div>
-          <button>Generate password</button>
+          <button className="bg-neon w-full py-3 text-dark uppercase mt-10 text-sm">
+            Generate
+          </button>
         </form>
       </div>
     </section>
