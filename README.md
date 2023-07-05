@@ -3,7 +3,7 @@
 This is a password generator React application that allows users to generate random passwords based
 on their preferences.
 
-(https://razvi42.github.io/password-generator/)[Live application]
+[Live application](https://razvi42.github.io/password-generator/)
 
 ## Features
 
